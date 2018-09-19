@@ -12,12 +12,14 @@ define role::assign (
     content  => "#!/bin/sh\necho '${hiera("role::${role}::description")}'\n",
   }
 
-  if (defined("role::${role}")) {
-    include("role::${role}")
-  }
-  else {
-    notify { 'Error':
-      message => "No such role defined: role::${role}"
+  $includes = hiera("role::${role}::includes")
+
+  $includes.each |String $inc| {
+    if (defined($inc)) {
+      include($inc)
+    }
+    else {
+      notify { 'Error': message => "No such definition: ${inc}" }
     }
   }
 }
