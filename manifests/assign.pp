@@ -5,6 +5,7 @@ define role::assign (
   $tld        = undef,
   $role       = undef
 ) {
+  include base
   include motd
   motd::script { "role-${role}":
     ensure   => present,
