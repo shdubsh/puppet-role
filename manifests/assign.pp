@@ -13,7 +13,7 @@ define role::assign (
     content  => "#!/bin/sh\necho '${hiera("role::${role}::description")}'\n",
   }
 
-  $includes = hiera("role::${role}::includes")
+  $includes = hiera("role::${role}::includes", [])
 
   $includes.each |String $inc| {
     if (defined($inc)) {
